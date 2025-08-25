@@ -1,0 +1,48 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.contenedor {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+}
+
+.logo {
+    width: 150px;
+    margin: 20px auto;
+    display: block;
+}
+
+h2, h3, h4 {
+    margin: 10px 0;
+}
+
+.tema {
+    color: rgb(48, 35, 35);
+    font-weight: bold;
+}
+
+table {
+    margin: 20px auto;
+    border-collapse: collapse;
+    width: 80%;
+    color: black;
+}
+
+table, th, td {
+    border: 1px solid black;
+    padding: 8px;
+}
+
+th {
+    background-color: #222;
+}
+
+.fecha {
+    margin-top: 40px;
+    font-weight: bold;
+}

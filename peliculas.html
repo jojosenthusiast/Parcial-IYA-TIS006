@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CineMax - Películas</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Arial", sans-serif;
+        background: linear-gradient(135deg, #0f0f23, #1a1a2e, #16213e);
+        color: #fff;
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 50px;
+        padding: 20px 0;
+      }
+
+      .header h1 {
+        font-size: 3.5em;
+        background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 10px;
+        text-shadow: 0 0 30px rgba(255, 107, 107, 0.3);
+      }
+
+      .header p {
+        font-size: 1.2em;
+        color: #b8b8b8;
+        margin-top: 10px;
+      }
+
+      .movies-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 30px;
+        padding: 20px 0;
+      }
+
+      .movie-card {
+        background: linear-gradient(145deg, #1e1e2f, #2a2a3e);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        transition: all 0.4s ease;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        position: relative;
+      }
+
+      .movie-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+        border-color: rgba(255, 107, 107, 0.3);
+      }
+
+      .movie-poster {
+        width: 100%;
+        height: 400px;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .movie-poster::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          to bottom,
+          transparent 0%,
+          rgba(0, 0, 0, 0.7) 100%
+        );
+        z-index: 1;
+      }
+
+      .spiderman {
+        background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600"><rect width="400" height="600" fill="%23dc143c"/><circle cx="200" cy="150" r="60" fill="%23000"/><path d="M200 90 L200 210 M140 150 L260 150 M170 120 L230 120 M170 180 L230 180" stroke="%23fff" stroke-width="3"/><text x="200" y="350" text-anchor="middle" fill="%23fff" font-size="24" font-weight="bold">SPIDER-MAN 3</text><text x="200" y="380" text-anchor="middle" fill="%23ccc" font-size="16">2007</text></svg>');
+      }
+
+      .transformers {
+        background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600"><rect width="400" height="600" fill="%231a1a1a"/><polygon points="200,80 240,140 160,140" fill="%23ff8c00"/><rect x="180" y="140" width="40" height="60" fill="%23c0c0c0"/><rect x="170" y="200" width="60" height="40" fill="%23808080"/><text x="200" y="320" text-anchor="middle" fill="%23fff" font-size="20" font-weight="bold">TRANSFORMERS:</text><text x="200" y="345" text-anchor="middle" fill="%23fff" font-size="20" font-weight="bold">REVENGE OF</text><text x="200" y="370" text-anchor="middle" fill="%23fff" font-size="20" font-weight="bold">THE FALLEN</text><text x="200" y="400" text-anchor="middle" fill="%23ccc" font-size="16">2009</text></svg>');
+      }
+
+      .conjuro {
+        background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600"><rect width="400" height="600" fill="%232c1810"/><circle cx="200" cy="150" r="50" fill="%23000" opacity="0.7"/><path d="M200 100 Q220 120 200 140 Q180 120 200 100" fill="%238b0000"/><rect x="150" y="180" width="100" height="80" fill="%234a4a4a" opacity="0.8"/><text x="200" y="320" text-anchor="middle" fill="%23fff" font-size="24" font-weight="bold">EL CONJURO 2</text><text x="200" y="350" text-anchor="middle" fill="%23ccc" font-size="16">2016</text></svg>');
+      }
+
+      .movie-info {
+        padding: 25px;
+        position: relative;
+        z-index: 2;
+      }
+
+      .movie-title {
+        font-size: 1.5em;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #fff;
+      }
+
+      .movie-year {
+        color: #ff6b6b;
+        font-size: 1.1em;
+        margin-bottom: 15px;
+        font-weight: 600;
+      }
+
+      .movie-description {
+        color: #b8b8b8;
+        line-height: 1.6;
+        margin-bottom: 20px;
+        font-size: 0.95em;
+      }
+
+      .details-btn {
+        background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 1em;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+      }
+
+      .details-btn:hover {
+        background: linear-gradient(45deg, #ee5a52, #ff6b6b);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6);
+      }
+
+      .rating {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .stars {
+        color: #ffd700;
+        margin-right: 10px;
+        font-size: 1.2em;
+      }
+
+      .rating-text {
+        color: #b8b8b8;
+        font-size: 0.9em;
+      }
+
+      @media (max-width: 768px) {
+        .movies-grid {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+
+        .header h1 {
+          font-size: 2.5em;
+        }
+
+        .container {
+          padding: 15px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>🎬 CineMax</h1>
+        <p>Descubre las mejores películas</p>
+      </div>
+
+      <div class="movies-grid">
+        <!-- Spider-Man 3 -->
+        <div class="movie-card">
+          <div class="movie-poster spiderman"></div>
+          <div class="movie-info">
+            <h2 class="movie-title">Spider-Man 3</h2>
+            <div class="movie-year">2007</div>
+            <div class="rating">
+              <div class="stars">★★★☆☆</div>
+              <div class="rating-text">6.3/10 IMDb</div>
+            </div>
+            <p class="movie-description">
+              Peter Parker se enfrenta a nuevos desafíos cuando un misterioso
+              simbionte alienígena se adhiere a su traje, otorgándole nuevos
+              poderes pero también despertando el lado más oscuro de su
+              personalidad.
+            </p>
+            <button class="details-btn" onclick="verDetalles('spiderman3')">
+              Ver Detalles
+            </button>
+          </div>
+        </div>
+
+        <!-- Transformers 2 -->
+        <div class="movie-card">
+          <div class="movie-poster transformers"></div>
+          <div class="movie-info">
+            <h2 class="movie-title">Transformers: Revenge of the Fallen</h2>
+            <div class="movie-year">2009</div>
+            <div class="rating">
+              <div class="stars">★★★☆☆</div>
+              <div class="rating-text">6.0/10 IMDb</div>
+            </div>
+            <p class="movie-description">
+              Sam Witwicky se ve envuelto en la guerra entre Autobots y
+              Decepticons cuando descubre la verdad sobre los antiguos
+              Transformers en la Tierra. Una batalla épica por el destino de la
+              humanidad.
+            </p>
+            <button class="details-btn" onclick="verDetalles('transformers2')">
+              Ver Detalles
+            </button>
+          </div>
+        </div>
+
+        <!-- El Conjuro 2 -->
+        <div class="movie-card">
+          <div class="movie-poster conjuro"></div>
+          <div class="movie-info">
+            <h2 class="movie-title">El Conjuro 2</h2>
+            <div class="movie-year">2016</div>
+            <div class="rating">
+              <div class="stars">★★★★☆</div>
+              <div class="rating-text">7.3/10 IMDb</div>
+            </div>
+            <p class="movie-description">
+              Ed y Lorraine Warren viajan a Londres para ayudar a una madre
+              soltera que cría a cuatro hijos en una casa plagada de espíritus
+              malignos. Un caso que pondrá a prueba su fe y valentía.
+            </p>
+            <button class="details-btn" onclick="verDetalles('conjuro2')">
+              Ver Detalles
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function verDetalles(pelicula) {
+        // Guardamos la información de la película seleccionada
+        localStorage.setItem("peliculaSeleccionada", pelicula);
+
+        // Redirigimos a la página de detalles
+        window.location.href = "detalles.html";
+      }
+
+      // Efectos de animación al cargar la página
+      document.addEventListener("DOMContentLoaded", function () {
+        const cards = document.querySelectorAll(".movie-card");
+        cards.forEach((card, index) => {
+          card.style.opacity = "0";
+          card.style.transform = "translateY(50px)";
+
+          setTimeout(() => {
+            card.style.transition = "all 0.6s ease";
+            card.style.opacity = "1";
+            card.style.transform = "translateY(0)";
+          }, index * 200);
+        });
+      });
+    </script>
+  </body>
+</html>

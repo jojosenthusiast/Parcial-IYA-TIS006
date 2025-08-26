@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CineMax - Detalles de Película</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Arial", sans-serif;
+        background: linear-gradient(135deg, #0f0f23, #1a1a2e, #16213e);
+        color: #fff;
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .back-btn {
+        background: linear-gradient(45deg, #4ecdc4, #44a08d);
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 1em;
+        margin-bottom: 30px;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 600;
+      }
+
+      .back-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(78, 205, 196, 0.4);
+      }
+
+      .movie-detail {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 40px;
+        margin-bottom: 40px;
+        background: linear-gradient(145deg, #1e1e2f, #2a2a3e);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+      }
+
+      .movie-poster-large {
+        width: 100%;
+        height: 500px;
+        background-size: cover;
+        background-position: center;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      }
+
+      .movie-info-detailed {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .movie-title-large {
+        font-size: 2.5em;
+        margin-bottom: 15px;
+        background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .movie-meta {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+
+      .meta-item {
+        background: rgba(255, 107, 107, 0.1);
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.9em;
+        border: 1px solid rgba(255, 107, 107, 0.3);
+      }
+
+      .rating-large {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        font-size: 1.2em;
+      }
+
+      .stars-large {
+        color: #ffd700;
+        margin-right: 15px;
+        font-size: 1.5em;
+      }
+
+      .synopsis {
+        font-size: 1.1em;
+        line-height: 1.8;
+        color: #e0e0e0;
+        margin-bottom: 30px;
+        text-align: justify;
+      }
+
+      .cast-crew {
+        background: linear-gradient(145deg, #2a2a3e, #1e1e2f);
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 30px;
+      }
+
+      .cast-crew h3 {
+        color: #ff6b6b;
+        margin-bottom: 15px;
+        font-size: 1.3em;
+      }
+
+      .cast-list,
+      .crew-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-bottom: 20px;
+      }
+
+      .person {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 10px;
+        border-radius: 10px;
+        text-align: center;
+      }
+
+      .person-name {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      .person-role {
+        color: #b8b8b8;
+        font-size: 0.9em;
+      }
+
+      .trailer-section {
+        background: linear-gradient(145deg, #2a2a3e, #1e1e2f);
+        border-radius: 15px;
+        padding: 25px;
+        text-align: center;
+      }
+
+      .trailer-btn {
+        background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 1.1em;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-top: 15px;
+      }
+
+      .trailer-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6);
+      }
+
+      @media (max-width: 768px) {
+        .movie-detail {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+
+        .movie-title-large {
+          font-size: 2em;
+        }
+
+        .cast-list,
+        .crew-list {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Estilos específicos para cada película */
+      .spiderman-theme {
+        border: 2px solid #dc143c;
+      }
+
+      .transformers-theme {
+        border: 2px solid #ff8c00;
+      }
+
+      .conjuro-theme {
+        border: 2px solid #8b0000;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="peliculas.html" class="back-btn">← Volver a Películas</a>
+
+      <div id="movie-content">
+        <!-- El contenido se carga dinámicamente con JavaScript -->
+      </div>
+    </div>
+
+    <script>
+      // Datos de las películas
+      const peliculas = {
+        spiderman3: {
+          titulo: "Spider-Man 3",
+          año: "2007",
+          duracion: "139 min",
+          genero: "Acción, Aventura, Sci-Fi",
+          director: "Sam Raimi",
+          rating: "6.3",
+          estrellas: "★★★☆☆",
+          poster:
+            "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 600'><rect width='400' height='600' fill='%23dc143c'/><circle cx='200' cy='150' r='60' fill='%23000'/><path d='M200 90 L200 210 M140 150 L260 150 M170 120 L230 120 M170 180 L230 180' stroke='%23fff' stroke-width='3'/><text x='200' y='350' text-anchor='middle' fill='%23fff' font-size='24' font-weight='bold'>SPIDER-MAN 3</text><text x='200' y='380' text-anchor='middle' fill='%23ccc' font-size='16'>2007</text></svg>",
+          sinopsis:
+            "En Spider-Man 3, Peter Parker finalmente ha encontrado el equilibrio perfecto entre su devoción por Mary Jane Watson y sus deberes como superhéroe. Pero una tormenta se está gestando en el horizonte. Cuando su traje se adhiere a un misterioso simbionte alienígena, las habilidades de Spider-Man se ven potenciadas, pero también su lado más oscuro emerge. Bajo la influencia del simbionte, Peter se vuelve arrogante y vengativo. Al mismo tiempo, debe enfrentar a nuevos villanos: Sandman, un hombre con la capacidad de transformar su cuerpo en arena, y Venom, nacido del mismo simbionte que una vez lo controló. Peter debe vencer sus demonios internos y encontrar la fuerza para proteger a aquellos que más ama.",
+          reparto: [
+            { nombre: "Tobey Maguire", papel: "Peter Parker / Spider-Man" },
+            { nombre: "Kirsten Dunst", papel: "Mary Jane Watson" },
+            { nombre: "James Franco", papel: "Harry Osborn" },
+            { nombre: "Thomas Haden Church", papel: "Flint Marko / Sandman" },
+            { nombre: "Topher Grace", papel: "Eddie Brock / Venom" },
+          ],
+          equipo: [
+            { nombre: "Sam Raimi", papel: "Director" },
+            { nombre: "Laura Ziskin", papel: "Productora" },
+            { nombre: "Christopher Young", papel: "Música" },
+          ],
+          tema: "spiderman-theme",
+        },
+        transformers2: {
+          titulo: "Transformers: Revenge of the Fallen",
+          año: "2009",
+          duracion: "149 min",
+          genero: "Acción, Aventura, Sci-Fi",
+          director: "Michael Bay",
+          rating: "6.0",
+          estrellas: "★★★☆☆",
+          poster:
+            "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 600'><rect width='400' height='600' fill='%231a1a1a'/><polygon points='200,80 240,140 160,140' fill='%23ff8c00'/><rect x='180' y='140' width='40' height='60' fill='%23c0c0c0'/><rect x='170' y='200' width='60' height='40' fill='%23808080'/><text x='200' y='320' text-anchor='middle' fill='%23fff' font-size='20' font-weight='bold'>TRANSFORMERS:</text><text x='200' y='345' text-anchor='middle' fill='%23fff' font-size='20' font-weight='bold'>REVENGE OF</text><text x='200' y='370' text-anchor='middle' fill='%23fff' font-size='20' font-weight='bold'>THE FALLEN</text><text x='200' y='400' text-anchor='middle' fill='%23ccc' font-size='16'>2009</text></svg>",
+          sinopsis:
+            "Dos años han pasado desde que Sam Witwicky salvó el universo, rescatando al mundo de una invasión malévola al lado de los Autobots liderados por Optimus Prime. A pesar de sus actos heroicos, Sam sigue siendo un adolescente normal que lucha por una vida ordinaria: quiere ir a la universidad y alejarse de los robots. Pero el destino tiene otros planes para él. Los fragmentos del AllSpark han impregnado su mente con antiguos símbolos Cybertron, convirtiendo a Sam en el objetivo principal de los Decepticons. Cuando una antigua raza de máquinas llamada 'The Fallen' despierta para reclamar la Tierra, Sam debe aceptar su destino y unirse una vez más a Optimus Prime y Bumblebee en una batalla épica que se extiende por todo el mundo.",
+          reparto: [
+            { nombre: "Shia LaBeouf", papel: "Sam Witwicky" },
+            { nombre: "Megan Fox", papel: "Mikaela Banes" },
+            { nombre: "Josh Duhamel", papel: "Major Lennox" },
+            { nombre: "Tyrese Gibson", papel: "Robert Epps" },
+            { nombre: "John Turturro", papel: "Agent Simmons" },
+          ],
+          equipo: [
+            { nombre: "Michael Bay", papel: "Director" },
+            { nombre: "Lorenzo di Bonaventura", papel: "Productor" },
+            { nombre: "Steve Jablonsky", papel: "Música" },
+          ],
+          tema: "transformers-theme",
+        },
+        conjuro2: {
+          titulo: "El Conjuro 2",
+          año: "2016",
+          duracion: "134 min",
+          genero: "Terror, Misterio, Thriller",
+          director: "James Wan",
+          rating: "7.3",
+          estrellas: "★★★★☆",
+          poster:
+            "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 600'><rect width='400' height='600' fill='%232c1810'/><circle cx='200' cy='150' r='50' fill='%23000' opacity='0.7'/><path d='M200 100 Q220 120 200 140 Q180 120 200 100' fill='%238b0000'/><rect x='150' y='180' width='100' height='80' fill='%234a4a4a' opacity='0.8'/><text x='200' y='320' text-anchor='middle' fill='%23fff' font-size='24' font-weight='bold'>EL CONJURO 2</text><text x='200' y='350' text-anchor='middle' fill='%23ccc' font-size='16'>2016</text></svg>",
+          sinopsis:
+            "En 1977, los renombrados demonólogos Ed y Lorraine Warren viajan a Enfield, un pueblo en el norte de Londres, para investigar informes de actividad sobrenatural en la casa de la familia Hodgson. Peggy Hodgson, una madre soltera que lucha por mantener a flote su familia, busca ayuda cuando fenómenos extraños y aterradores comienzan a atormentar a su familia, especialmente a su hija Janet. Lo que inicialmente parece ser un caso de poltergeist se convierte en algo mucho más siniestro y peligroso. Los Warren pronto descubren que se enfrentan a una de las manifestaciones más malévolas que han encontrado jamás. Mientras Janet se convierte en el foco de la actividad paranormal, los Warren deben usar toda su experiencia y fe para salvar a la niña y a su familia de una presencia demoníaca que amenaza con destruir sus vidas.",
+          reparto: [
+            { nombre: "Patrick Wilson", papel: "Ed Warren" },
+            { nombre: "Vera Farmiga", papel: "Lorraine Warren" },
+            { nombre: "Madison Wolfe", papel: "Janet Hodgson" },
+            { nombre: "Frances O'Connor", papel: "Peggy Hodgson" },
+            { nombre: "Lauren Esposito", papel: "Margaret Hodgson" },
+          ],
+          equipo: [
+            { nombre: "James Wan", papel: "Director" },
+            { nombre: "Peter Safran", papel: "Productor" },
+            { nombre: "Joseph Bishara", papel: "Música" },
+          ],
+          tema: "conjuro-theme",
+        },
+      };
+
+      function cargarDetalles() {
+        const peliculaId =
+          localStorage.getItem("peliculaSeleccionada") || "spiderman3";
+        const pelicula = peliculas[peliculaId];
+
+        const content = document.getElementById("movie-content");
+        content.innerHTML = `
+                <div class="movie-detail ${pelicula.tema}">
+                    <div class="movie-poster-large" style="background-image: url('${
+                      pelicula.poster
+                    }')"></div>
+                    <div class="movie-info-detailed">
+                        <div>
+                            <h1 class="movie-title-large">${
+                              pelicula.titulo
+                            }</h1>
+                            <div class="movie-meta">
+                                <div class="meta-item">${pelicula.año}</div>
+                                <div class="meta-item">${
+                                  pelicula.duracion
+                                }</div>
+                                <div class="meta-item">${pelicula.genero}</div>
+                                <div class="meta-item">Director: ${
+                                  pelicula.director
+                                }</div>
+                            </div>
+                            <div class="rating-large">
+                                <div class="stars-large">${
+                                  pelicula.estrellas
+                                }</div>
+                                <div>${pelicula.rating}/10 IMDb</div>
+                            </div>
+                        </div>
+                        <div class="synopsis">
+                            <h3 style="color: #ff6b6b; margin-bottom: 15px;">Sinopsis</h3>
+                            ${pelicula.sinopsis}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cast-crew">
+                    <h3>🎭 Reparto Principal</h3>
+                    <div class="cast-list">
+                        ${pelicula.reparto
+                          .map(
+                            (actor) => `
+                            <div class="person">
+                                <div class="person-name">${actor.nombre}</div>
+                                <div class="person-role">${actor.papel}</div>
+                            </div>
+                        `
+                          )
+                          .join("")}
+                    </div>
+
+                    <h3>🎬 Equipo Técnico</h3>
+                    <div class="crew-list">
+                        ${pelicula.equipo
+                          .map(
+                            (crew) => `
+                            <div class="person">
+                                <div class="person-name">${crew.nombre}</div>
+                                <div class="person-role">${crew.papel}</div>
+                            </div>
+                        `
+                          )
+                          .join("")}
+                    </div>
+                </div>
+
+                <div class="trailer-section">
+                    <h3 style="color: #ff6b6b; margin-bottom: 15px;">🎥 Trailer</h3>
+                    <p style="color: #b8b8b8; margin-bottom: 15px;">Disfruta del trailer oficial de ${
+                      pelicula.titulo
+                    }</p>
+                    <button class="trailer-btn" onclick="verTrailer('${peliculaId}')">Ver Trailer</button>
+                </div>
+            `;
+      }
+
+      function verTrailer(peliculaId) {
+        const trailers = {
+          spiderman3: "Reproduciendo trailer de Spider-Man 3...",
+          transformers2:
+            "Reproduciendo trailer de Transformers: Revenge of the Fallen...",
+          conjuro2: "Reproduciendo trailer de El Conjuro 2...",
+        };
+
+        alert(trailers[peliculaId]);
+      }
+
+      // Cargar detalles cuando se carga la página
+      document.addEventListener("DOMContentLoaded", cargarDetalles);
+
+      // Animación de entrada
+      document.addEventListener("DOMContentLoaded", function () {
+        setTimeout(() => {
+          const movieDetail = document.querySelector(".movie-detail");
+          const sections = document.querySelectorAll(
+            ".cast-crew, .trailer-section"
+          );
+
+          movieDetail.style.opacity = "0";
+          movieDetail.style.transform = "translateY(30px)";
+          movieDetail.style.transition = "all 0.6s ease";
+
+          setTimeout(() => {
+            movieDetail.style.opacity = "1";
+            movieDetail.style.transform = "translateY(0)";
+          }, 100);
+
+          sections.forEach((section, index) => {
+            section.style.opacity = "0";
+            section.style.transform = "translateY(30px)";
+            section.style.transition = "all 0.6s ease";
+
+            setTimeout(() => {
+              section.style.opacity = "1";
+              section.style.transform = "translateY(0)";
+            }, 300 + index * 200);
+          });
+        }, 50);
+      });
+    </script>
+  </body>
+</html>
